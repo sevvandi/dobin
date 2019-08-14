@@ -1,11 +1,18 @@
 Package: dobin
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Dimension Reduction for Outlier Detection
+Version: 0.0.0.9000
+Authors@R: person("Sevvandi", "Kandanaarachchi", email = "sevvandi.kandanaarachchi@monash.edu",
+  role = c("aut", "cre"))
+Maintainer: Sevvandi Kandanaarachchi <sevvandi.kandanaarachchi@monash.edu>
+Description: A construction of basis vectors for outlier detection. 
+    This is not an outlier detection method; rather it is a pre-processing method
+    for outlier detection. It brings outliers to the fore-front using fewer
+    basis vectors. Specially useful for subspace outlier detection. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    pracma,
+    FNN
+RoxygenNote: 6.1.1
