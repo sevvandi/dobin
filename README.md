@@ -9,7 +9,7 @@ Installation
 
 ``` r
 # install.packages("devtools")
-# devtools::install_github("sevvandik/dobin")
+# devtools::install_github("sevvandi/dobin")
 ```
 
 Example
@@ -34,7 +34,7 @@ X2 <- cbind(-1*x1_1,x2[1:400],x3[1:400],x4[1:400],x5[1:400],x6[1:400])
 X <- rbind(X1, X2)
 labs <- c(rep(0,400), rep(1,5), rep(0,400))
 out <- dobin(X)
-plot(out$coords[ , 1:2], col=as.factor(labs), pch=20)
+plot(out$coords[ , 1:2], col=as.factor(labs), pch=20, xlab="DC1", ylab="DC2")
 ```
 
 ![](README_files/figure-markdown_github/bimodal-1.png)
