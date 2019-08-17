@@ -41,6 +41,7 @@ close_distance_matrix <- function(x, frac = 0.95, norm=1){
 
 distance_pairs <- function(x, ll, norm=1){
   ## ll is a list of pairs
+
   if(norm==1){
     x <- apply(x, 2, unitize_1)
   }else if(norm==2){
