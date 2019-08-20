@@ -20,21 +20,18 @@ A bimodal distribution in six dimensions, with 5 outliers in the middle. We cons
 ``` r
 library("dobin")
 set.seed(1)
-x2 <- rnorm(405)
-x3 <- rnorm(405)
-x4 <- rnorm(405)
-x5 <- rnorm(405)
-x6 <- rnorm(405)
-x1_1 <- rnorm(mean = 5, 400)
-mu2 <-  0
-x1_2 <- rnorm(5, mean=mu2, sd=0.2)
-x1 <- c(x1_1, x1_2)
-X1 <- cbind(x1,x2,x3,x4,x5,x6)
-X2 <- cbind(-1*x1_1,x2[1:400],x3[1:400],x4[1:400],x5[1:400],x6[1:400])
-X <- rbind(X1, X2)
+# A bimodal distribution in six dimensions, with 5 outliers in the middle.
+X <- data.frame(
+   x1 = c(rnorm(400,mean=5), rnorm(5, mean=0, sd=0.2), rnorm(400, mean=-5)),
+   x2 = rnorm(805),
+   x3 = rnorm(805),
+   x4 = rnorm(805),
+   x5 = rnorm(805),
+   x6 = rnorm(805)
+)
 labs <- c(rep(0,400), rep(1,5), rep(0,400))
 out <- dobin(X)
-plot(out$coords[ , 1:2], col=as.factor(labs), pch=20, xlab="DC1", ylab="DC2")
+plot(out$coords[ , 1:2], col=as.factor(labs), pch=20)
 ```
 
 ![](README_files/figure-markdown_github/bimodal-1.png)
