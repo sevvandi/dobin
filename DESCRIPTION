@@ -19,5 +19,7 @@ RoxygenNote: 6.1.1
 Suggests: 
     knitr,
     rmarkdown,
-    OutliersO3
+    OutliersO3,
+    mbgraphic,
+    ggplot2
 VignetteBuilder: knitr
