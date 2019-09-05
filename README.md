@@ -8,8 +8,8 @@ Installation
 ------------
 
 ``` r
-# install.packages("devtools")
-# devtools::install_github("sevvandi/dobin")
+ install.packages("devtools")
+ devtools::install_github("sevvandi/dobin")
 ```
 
 Example
