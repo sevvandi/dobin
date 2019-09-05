@@ -16,3 +16,7 @@ Imports:
     pracma,
     FNN
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
