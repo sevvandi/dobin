@@ -18,5 +18,6 @@ Imports:
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    OutliersO3
 VignetteBuilder: knitr
