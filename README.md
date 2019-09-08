@@ -4,6 +4,8 @@ dobin
 
 [![Travis build status](https://travis-ci.org/sevvandi/dobin.svg?branch=master)](https://travis-ci.org/sevvandi/dobin)
 
+The R package **dobin** constructs a set of basis vectors tailored for outlier detection as described in (Kandanaarachchi and Hyndman 2019).
+
 Installation
 ------------
 
@@ -39,7 +41,7 @@ ggplot(XX, aes(DC1, DC2, color=labs)) + geom_point() + theme_bw()
 
 ![](man/figures/bimodal-1.png)
 
-The first two principal components of the same dataset is shown in the following figure:
+To compare, we perform PCA on the same dataset. The first two principal components are shown in the figure below:
 
 ``` r
 library("dobin")
@@ -62,3 +64,8 @@ ggplot(XX, aes(PC1, PC2, color=labs)) + geom_point() + theme_bw()
 ```
 
 ![](man/figures/bimodal_pca-1.png)
+
+References
+==========
+
+Kandanaarachchi, Sevvandi, and Rob J Hyndman. 2019. “Dimension Reduction for Outlier Detection Using Dobin.” Working Paper. <https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN>.
