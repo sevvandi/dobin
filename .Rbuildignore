@@ -1,3 +1,5 @@
+^README_files$
+^README\.md$
 ^\.travis\.yml$
 ^README\.Rmd$
 ^LICENSE\.md$
