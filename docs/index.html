@@ -66,10 +66,12 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div id="dobin" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#dobin" class="anchor"></a>dobin</h1></div>
 
+<p>The R package <strong>dobin</strong> constructs a set of basis vectors tailored for outlier detection as described in (Kandanaarachchi and Hyndman 2019).</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -98,7 +100,7 @@ XX &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/bas
 <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(XX) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"DC1"</span>, <span class="st">"DC2"</span>, <span class="st">"labs"</span> )
 <span class="kw">ggplot</span>(XX, <span class="kw">aes</span>(DC1, DC2, <span class="dt">color=</span>labs)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre></div>
 <p><img src="reference/figures/bimodal-1.png"></p>
-<p>The first two principal components of the same dataset is shown in the following figure:</p>
+<p>To compare, we perform PCA on the same dataset. The first two principal components are shown in the figure below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"dobin"</span>)
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)
 <span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)
@@ -119,6 +121,12 @@ XX &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/bas
 <p><img src="reference/figures/bimodal_pca-1.png"></p>
 </div>
 </div>
+<div id="references" class="section level1">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<p>Kandanaarachchi, Sevvandi, and Rob J Hyndman. 2019. “Dimension Reduction for Outlier Detection Using Dobin.” Working Paper. <a href="https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN" class="uri">https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN</a>.</p>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
