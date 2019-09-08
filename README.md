@@ -19,6 +19,7 @@ A bimodal distribution in six dimensions, with 5 outliers in the middle. We cons
 
 ``` r
 library("dobin")
+library("ggplot2")
 set.seed(1)
 # A bimodal distribution in six dimensions, with 5 outliers in the middle.
 X <- data.frame(
@@ -29,9 +30,35 @@ X <- data.frame(
    x5 = rnorm(805),
    x6 = rnorm(805)
 )
-labs <- c(rep(0,400), rep(1,5), rep(0,400))
+labs <- c(rep("Norm",400), rep("Out",5), rep("Norm",400))
 out <- dobin(X)
-plot(out$coords[ , 1:2], col=as.factor(labs), pch=20)
+XX <- cbind.data.frame(out$coords[ ,1:2], as.factor(labs))
+colnames(XX) <- c("DC1", "DC2", "labs" )
+ggplot(XX, aes(DC1, DC2, color=labs)) + geom_point() + theme_bw()
 ```
 
-![](README_files/figure-markdown_github/bimodal-1.png)
+![](man/figures/bimodal-1.png)
+
+The first two principal components of the same dataset is shown in the following figure:
+
+``` r
+library("dobin")
+library("ggplot2")
+set.seed(1)
+# A bimodal distribution in six dimensions, with 5 outliers in the middle.
+X <- data.frame(
+   x1 = c(rnorm(400,mean=5), rnorm(5, mean=0, sd=0.2), rnorm(400, mean=-5)),
+   x2 = rnorm(805),
+   x3 = rnorm(805),
+   x4 = rnorm(805),
+   x5 = rnorm(805),
+   x6 = rnorm(805)
+)
+labs <- c(rep("Norm",400), rep("Out",5), rep("Norm",400))
+out <- prcomp(X, scale=TRUE)
+XX <- cbind.data.frame(out$x[ ,1:2], as.factor(labs))
+colnames(XX) <- c("PC1", "PC2", "labs" )
+ggplot(XX, aes(PC1, PC2, color=labs)) + geom_point() + theme_bw()
+```
+
+![](man/figures/bimodal_pca-1.png)

@@ -24,3 +24,5 @@ Suggests:
     mbgraphic,
     ggplot2
 VignetteBuilder: knitr
+Depends: 
+    R (>= 3.4.0)
