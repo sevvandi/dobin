@@ -1,7 +1,7 @@
 Package: dobin
 Type: Package
 Title: Dimension Reduction for Outlier Detection
-Version: 1.0.1
+Version: 1.0.0
 Authors@R: person("Sevvandi", "Kandanaarachchi", email = "sevvandik@gmail.com",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0337-0395"))
 Maintainer: Sevvandi Kandanaarachchi <sevvandik@gmail.com>
@@ -26,3 +26,4 @@ Suggests:
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.4.0)
+URL: https://sevvandi.github.io/dobin/

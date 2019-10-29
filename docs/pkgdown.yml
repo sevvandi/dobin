@@ -3,4 +3,7 @@ pkgdown: 1.4.0
 pkgdown_sha: ~
 articles:
   dobin: dobin.html
+urls:
+  reference: https://sevvandi.github.io/dobin//reference
+  article: https://sevvandi.github.io/dobin//articles
 
