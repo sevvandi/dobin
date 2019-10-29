@@ -1,13 +1,24 @@
 
+dobin <img src='man/figures/logo.png' align="right" height="132.5" />
+=====================================================================
+
 dobin
 =====
 
 [![Travis build status](https://travis-ci.org/sevvandi/dobin.svg?branch=master)](https://travis-ci.org/sevvandi/dobin)
 
-The R package **dobin** constructs a set of basis vectors tailored for outlier detection as described in (Kandanaarachchi and Hyndman 2019).
+The R package **dobin** constructs a set of basis vectors tailored for outlier detection as described in (Kandanaarachchi and Hyndman 2019). According to Collins English dictionary, "dob in" is an informal verb meaning to inform against specially to the police. Naming credit goes to Rob Hyndman.
 
 Installation
 ------------
+
+You can install dobin from CRAN:
+
+``` r
+ install.packages("dobin")
+```
+
+Or you can install the development version form GitHub:
 
 ``` r
  install.packages("devtools")
