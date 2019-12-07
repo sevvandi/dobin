@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dobin</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -87,16 +87,23 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the version on CRAN:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"dobin"</span>)</code></pre></div>
-<p>You can install the development version from <a href="https://github.com/sevvandi/dobin">GitHub</a>.</p>
+<p>Or you can install the development version from <a href="https://github.com/sevvandi/dobin">GitHub</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
  devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"sevvandi/dobin"</span>)</code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="load-libraries" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#load-libraries" class="anchor"></a>Load libraries</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"dobin"</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"OutliersO3"</span>)</code></pre></div>
+</div>
+<div id="example-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-1" class="anchor"></a>Example 1</h2>
 <p>We consider the dataset <em>Election2005</em> from the R package <em>mbgraphic</em> for our example. This dataset is discussed in <span class="citation">(Unwin 2019a)</span>. The figure below shows the space spanned by the first two DOBIN vectors. In this space we see that observation 84 is the most outlying observation followed by observations 76, 83, 82, 221, 21, 87 and 81.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>Election2005[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">17</span>, <span class="dv">28</span>)]
-<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(data) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Area"</span>, <span class="st">"Population_density"</span>, <span class="st">"Birthrate"</span>, <span class="st">"Car_ownership"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>mbgraphic<span class="op">::</span>Election2005[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">17</span>, <span class="dv">28</span>)]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(data) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Area"</span>, <span class="st">"Population_density"</span>, <span class="st">"Birthrate"</span>, <span class="st">"Car_ownership"</span>)
 out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dobin.html">dobin</a></span>(data, <span class="dt">frac=</span><span class="fl">0.9</span>, <span class="dt">norm=</span><span class="dv">3</span>)
 
 labs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"norm"</span>, <span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(out<span class="op">$</span>coords)[<span class="dv">1</span>])
@@ -111,13 +118,40 @@ df2 &lt;-<span class="st"> </span>df[inds, ]
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out<span class="op">$</span>vec[ ,<span class="dv">1</span>]
 <span class="co">#&gt; [1]  0.008493392  0.997899717  0.040062008 -0.050190164</span></code></pre></div>
 <p>We see that the second variable which is <em>population density</em> is the main contributor to outliers in this dataset. Next we draw the O3 plot using <em>OutliersO3</em> package <span class="citation">(Unwin 2019b)</span>. O3 plots are introduced in <span class="citation">(Unwin 2019a)</span>. The O3 plot can identify outliers by using 6 different outlier detection methods. Therefore, it acts as an ensemble method. In addition, it also identifies outliers in axes-parallel subspaces.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>Election2005[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">17</span>, <span class="dv">28</span>)]
-<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(data) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Area"</span>, <span class="st">"Population_density"</span>, <span class="st">"Birthrate"</span>, <span class="st">"Car_ownership"</span>)
-O3y &lt;-<span class="st"> </span><span class="kw">O3prep</span>(data, <span class="dt">method=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HDo"</span>, <span class="st">"PCS"</span>, <span class="st">"BAC"</span>, <span class="st">"adjOut"</span>, <span class="st">"DDC"</span>, <span class="st">"MCD"</span>))
-O3y1 &lt;-<span class="st"> </span><span class="kw">O3plotM</span>(O3y)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">O3y &lt;-<span class="st"> </span>OutliersO3<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/OutliersO3/man/O3prep.html">O3prep</a></span>(data, <span class="dt">method=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HDo"</span>, <span class="st">"PCS"</span>, <span class="st">"BAC"</span>, <span class="st">"adjOut"</span>, <span class="st">"DDC"</span>, <span class="st">"MCD"</span>))
+O3y1 &lt;-<span class="st"> </span>OutliersO3<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/OutliersO3/man/O3plotM.html">O3plotM</a></span>(O3y)
 O3y1<span class="op">$</span>gO3</code></pre></div>
 <p><img src="dobin_files/figure-html/ex1_o3-1.png" width="768"> The O3 plot is organised in such a way that the outlyingness of the observations increase to the right. The columns on the left indicate the variables, the columns on the right indicate the observations, the rows specify the axis parallel subspaces and the colours depict the number of methods that identify each observation in each subspace as an outlier. From this plot we see that observation <span class="math inline">\(X84\)</span> is identified as an outlier by <span class="math inline">\(5\)</span> methods in <span class="math inline">\(5\)</span> subspaces, <span class="math inline">\(4\)</span> methods in <span class="math inline">\(2\)</span> subspaces, <span class="math inline">\(3\)</span> methods in <span class="math inline">\(1\)</span> subspace and by <span class="math inline">\(1\)</span> method in <span class="math inline">\(1\)</span> subspace. <span class="math inline">\(X84\)</span> is arguably the most outlying observation in this dataset. The observations <span class="math inline">\(X83\)</span>, <span class="math inline">\(X76\)</span>, <span class="math inline">\(X82\)</span> are also identified as outliers by <span class="math inline">\(5\)</span> methods in the dimension of population density. They are also identified as outliers by multiple methods in different subspaces.</p>
-<p>We see that DOBIN highlights the exact outliers identified by the O3 plot, in a space spanned by the first 2 DOBIN vectors. We note that this is a projection of the original space. More examples are discussed in <a href="https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN">our paper</a>.</p>
+</div>
+<div id="example-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-2" class="anchor"></a>Example 2</h2>
+<p>We consider the <em>diamonds</em> dataset in <em>ggplot2</em> R package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(diamonds, <span class="dt">package=</span><span class="st">"ggplot2"</span>)
+data &lt;-<span class="st"> </span>diamonds[<span class="dv">1</span><span class="op">:</span><span class="dv">5000</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span><span class="op">:</span><span class="dv">10</span>)]
+
+out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dobin.html">dobin</a></span>(data, <span class="dt">frac=</span><span class="fl">0.9</span>, <span class="dt">norm=</span><span class="dv">3</span>)
+kk &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(data)[<span class="dv">1</span>]<span class="op">/</span><span class="dv">10</span>),<span class="dv">25</span>)
+knn_dist &lt;-<span class="st"> </span>FNN<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/FNN/man/knn.dist.html">knn.dist</a></span>(out<span class="op">$</span>coords[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">k =</span> kk)
+knn_dist &lt;-<span class="st"> </span>knn_dist[ ,kk]
+ord &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/order.html">order</a></span>(knn_dist, <span class="dt">decreasing=</span><span class="ot">TRUE</span>)
+ord[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]
+<span class="co">#&gt; [1] 4792 2315 2208 4519</span></code></pre></div>
+<p>The first two DOBIN components highlight the observations 4519, 2315, 2208, 4792 by projecting them away from the rest of the data. This is corroborated by the following O3 plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">labs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"norm"</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(ord))
+labs[ord[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]] &lt;-<span class="st"> "out"</span>
+df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(out<span class="op">$</span>coords[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])
+<span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(df) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"DC1"</span>, <span class="st">"DC2"</span>)
+df2 &lt;-<span class="st"> </span>df[ord[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], ]
+<span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x=</span>DC1,<span class="dt">y=</span>DC2)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape=</span>labs, <span class="dt">color=</span>labs), <span class="dt">size=</span><span class="dv">2</span> ) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data=</span>df2, <span class="kw">aes</span>(DC1, DC2, <span class="dt">label =</span> ord[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]), <span class="dt">nudge_x =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="dobin_files/figure-html/diamonds2-1.png" width="768"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+pPa &lt;-<span class="st"> </span><span class="kw">O3prep</span>(data, <span class="dt">k1=</span><span class="dv">5</span>, <span class="dt">method=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HDo"</span>, <span class="st">"PCS"</span>, <span class="st">"adjOut"</span>), <span class="dt">tolHDo =</span> <span class="fl">0.001</span>, <span class="dt">tolPCS=</span><span class="fl">0.001</span>, <span class="dt">toladj=</span><span class="fl">0.001</span>, <span class="dt">boxplotLimits=</span><span class="dv">10</span>)
+pPx &lt;-<span class="st"> </span><span class="kw">O3plotM</span>(pPa)
+pPx<span class="op">$</span>gO3x <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">plot.margin =</span> <span class="kw">unit</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"cm"</span>))</code></pre></div>
+<p><img src="dobin_files/figure-html/diamonds2-2.png" width="768"></p>
+<p>In both examples, we see that DOBIN highlights the stronger outliers identified by the O3 plot, in a space spanned by the first 2 DOBIN vectors. We note that this is a projection of the original space.</p>
+<p>See our <a href="https://sevvandi.github.io/dobin/index.html">website</a> or <a href="https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN">our paper</a> for more examples.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -143,7 +177,9 @@ O3y1<span class="op">$</span>gO3</code></pre></div>
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#installation">Installation</a></li>
-      <li><a href="#example">Example</a></li>
+      <li><a href="#load-libraries">Load libraries</a></li>
+      <li><a href="#example-1">Example 1</a></li>
+      <li><a href="#example-2">Example 2</a></li>
       <li><a href="#references">References</a></li>
       </ul>
 </div>

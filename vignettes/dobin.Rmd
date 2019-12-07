@@ -16,11 +16,23 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.width=8, fig.height=6
 )
-library("dobin")
-library("OutliersO3")
-library("mbgraphic")
-library("ggplot2")
 ```
+
+```{r load2, echo=FALSE, eval=TRUE, message=FALSE}
+if (!requireNamespace("dobin", quietly = TRUE)) {
+    stop("Package dobin is needed for the vignette. Please install it.",
+      call. = FALSE)
+}
+if (!requireNamespace("OutliersO3", quietly = TRUE)) {
+    stop("Package OutliersO3 is needed for the vignette. Please install it.",
+      call. = FALSE)
+}
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package ggplot2 is needed for the vignette. Please install it.",
+      call. = FALSE)
+}
+```
+
 DOBIN (Distance based Outlier BasIs using Neighbours) [@dobin] is an approach to select a set of basis vectors tailored for outlier detection. DOBIN has a strong mathematical foundation and can be used as a dimension reduction tool for outlier detection.  The R package **dobin** computes this basis.  The DOBIN basis is constructed so that the first basis vector is in the direction yielding the highest knn distance and the second basis vector is in the direction giving the second highest knn distance and so on. Details on the construction of DOBIN can be found [here](https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN).
 
 ## Installation
@@ -29,17 +41,152 @@ You can install the version on CRAN:
  install.packages("dobin")
 ```
 
-You can install the development version from [GitHub](https://github.com/sevvandi/dobin).
+Or you can install the development version from [GitHub](https://github.com/sevvandi/dobin).
 ```{r install_dobin, eval=FALSE}
  install.packages("devtools")
  devtools::install_github("sevvandi/dobin")
 ```
 
-## Example
+## Load libraries
+```{r load, echo=TRUE}
+library("dobin")
+library("ggplot2")
+library("OutliersO3")
+```
+
+
+## Example 1
 We consider the dataset *Election2005* from the R package *mbgraphic* for our example. This dataset is discussed in [@unwin2019multivariate]. The figure below shows the space spanned by the first two DOBIN vectors. In this space we see that observation 84 is the most outlying observation followed by observations 76, 83, 82, 221, 21, 87 and 81.  
 
+```{r election2005, echo=FALSE}
+data <- 
+structure(list(Flaeche.km2. = c(2127.9, 2742.5, 2000.7, 2161, 
+142.8, 1301.7, 664.2, 1333.4, 1532.7, 1350, 406.2, 4350, 2647.4, 
+633.3, 3181.6, 3881.8, 4680.9, 3799.3, 119.7, 78.3, 49.8, 114.9, 
+77.2, 315.4, 1399.7, 2596.5, 1367.6, 831.2, 1947.2, 2015.9, 1973.3, 
+2351.2, 2230.7, 2487, 2857.7, 2390.1, 3271.4, 1916, 325.3, 1575, 
+112.7, 91.3, 1131.7, 2998.8, 1824.1, 1621.9, 954.7, 1205.7, 1235.2, 
+192.1, 1151.2, 2299.1, 1264, 153.9, 249.2, 5114.8, 3851.9, 2457.9, 
+2828.4, 3383.3, 809.9, 3861.7, 2390.1, 1812.1, 2967.2, 4715.2, 
+4021.2, 2001, 200.9, 1987.6, 2166, 1529.3, 135, 1700.1, 1989, 
+39.5, 96.6, 89.3, 99.5, 102.5, 57.1, 53.1, 44.9, 26.6, 167.7, 
+61.8, 52.3, 160.8, 547, 628, 940.6, 525.1, 1428.4, 128.3, 101.7, 
+122.9, 141.2, 660.7, 492.8, 918.5, 437.6, 131.1, 130.8, 201.6, 
+183.8, 223.3, 129.6, 87.4, 347.6, 170.4, 302.6, 563.2, 1232.1, 
+883.6, 175.2, 123.4, 109.4, 124.7, 115.9, 67.7, 118.1, 165.1, 
+388.2, 104.9, 976.5, 307.7, 994.9, 1258.9, 1091, 302.9, 1317.3, 
+864.5, 293.1, 514.8, 1087.2, 759.9, 1686.4, 1312.8, 323.3, 245.4, 
+103.1, 93.8, 126.1, 154.2, 347.1, 421.8, 1327.4, 1958.8, 1131.6, 
+1158.8, 610.9, 2257, 170.9, 126.7, 1645.1, 2012.6, 1281, 1786.2, 
+1653.6, 81.5, 453.3, 1509, 1622.3, 220.9, 602, 966.4, 613.6, 
+1412, 2166.6, 357.5, 2121.8, 2262.6, 1262.5, 1153.4, 1586.6, 
+2437.2, 812.6, 1240.9, 1171.3, 203.9, 840.6, 270.5, 85.6, 162.7, 
+453.1, 241.4, 449.3, 1115.1, 719.6, 1908.7, 2126.2, 2550.6, 1778.9, 
+445.2, 1083.4, 1412.6, 2616.4, 2250.2, 1268.8, 1337.1, 635, 2297.1, 
+1640.4, 3100.7, 1208.1, 1508.3, 524.2, 876.6, 314.8, 866, 1696, 
+1388.3, 1186, 1374.7, 1420.2, 1560, 1013.8, 2087.5, 87.5, 79.8, 
+52.5, 90.7, 683.3, 1476.7, 2446.2, 2373.9, 2783, 1845.3, 2480.5, 
+1599.8, 2159.3, 2244.9, 2650, 1473.8, 2984.6, 2582.6, 1003.1, 
+1648.2, 1289.9, 1557, 1732.6, 3043, 641.4, 1638.6, 85.8, 141.4, 
+1694.7, 761.6, 3114.8, 2037.3, 1561.3, 1056, 165.2, 1567.4, 2332.6, 
+1683.6, 1914.7, 2328.5, 113.7, 93.6, 585.4, 208.7, 465.2, 642.4, 
+513.4, 339.3, 642.4, 904.9, 2260.8, 838.7, 1644.8, 173.5, 718.4, 
+879, 305.6, 145, 2430.7, 724.9, 506.6, 671.8, 1668.2, 452.9, 
+1155.1, 1194.5, 1104.6, 1503.8, 1266.8, 818, 1861.4, 1094.2, 
+788.9, 1476, 2423.4, 1152.5, 1982.8, 325.3, 891.4, 801.6, 550.4
+), BDichte.je.km2. = c(134L, 86L, 115L, 116L, 1785L, 174L, 449L, 
+223L, 146L, 219L, 566L, 62L, 86L, 369L, 77L, 65L, 56L, 61L, 3064L, 
+3133L, 4970L, 2315L, 3762L, 1010L, 173L, 117L, 178L, 329L, 152L, 
+134L, 124L, 129L, 128L, 99L, 105L, 135L, 87L, 137L, 801L, 165L, 
+2239L, 2885L, 269L, 93L, 156L, 159L, 323L, 242L, 231L, 1280L, 
+213L, 122L, 236L, 2216L, 1293L, 41L, 55L, 119L, 105L, 72L, 385L, 
+66L, 108L, 136L, 81L, 49L, 71L, 122L, 1128L, 124L, 125L, 160L, 
+1767L, 154L, 124L, 8131L, 2970L, 2749L, 2580L, 2814L, 4972L, 
+6298L, 6803L, 12109L, 1399L, 4066L, 4921L, 1603L, 567L, 409L, 
+290L, 632L, 227L, 2072L, 2746L, 2311L, 2209L, 475L, 573L, 316L, 
+638L, 2305L, 2420L, 1614L, 1502L, 1030L, 2300L, 3142L, 842L, 
+1537L, 918L, 540L, 249L, 305L, 1432L, 2111L, 2229L, 2324L, 2220L, 
+3640L, 2158L, 1398L, 673L, 2576L, 279L, 901L, 262L, 196L, 231L, 
+892L, 215L, 364L, 1158L, 591L, 251L, 303L, 170L, 247L, 940L, 
+977L, 2842L, 2847L, 2269L, 1961L, 799L, 792L, 233L, 142L, 259L, 
+258L, 482L, 122L, 1441L, 1990L, 171L, 128L, 192L, 117L, 160L, 
+3276L, 676L, 157L, 167L, 1125L, 376L, 225L, 373L, 186L, 115L, 
+832L, 112L, 112L, 201L, 246L, 190L, 129L, 306L, 266L, 253L, 1344L, 
+397L, 990L, 3746L, 2004L, 557L, 1425L, 720L, 289L, 370L, 134L, 
+116L, 98L, 148L, 615L, 276L, 160L, 109L, 113L, 255L, 188L, 401L, 
+100L, 151L, 70L, 198L, 185L, 628L, 303L, 989L, 332L, 182L, 172L, 
+234L, 160L, 173L, 176L, 328L, 160L, 3581L, 4065L, 5546L, 3535L, 
+459L, 207L, 137L, 115L, 118L, 108L, 129L, 150L, 98L, 100L, 106L, 
+211L, 93L, 86L, 227L, 129L, 161L, 153L, 127L, 105L, 364L, 199L, 
+3173L, 1851L, 174L, 321L, 91L, 129L, 167L, 278L, 1743L, 203L, 
+107L, 190L, 152L, 137L, 2497L, 3276L, 610L, 1154L, 617L, 402L, 
+612L, 888L, 484L, 387L, 132L, 294L, 188L, 1638L, 387L, 321L, 
+980L, 2121L, 119L, 369L, 512L, 469L, 170L, 657L, 266L, 234L, 
+245L, 184L, 184L, 335L, 132L, 258L, 338L, 210L, 133L, 289L, 145L, 
+861L, 313L, 292L, 479L), LebGeb.je.1000. = c(8.4, 9.2, 9.1, 8.9, 
+8.6, 7.9, 8.5, 9.1, 7.6, 8.5, 8.6, 7.4, 7.8, 8, 6.7, 7.4, 7.4, 
+7.1, 9.2, 9.2, 9.2, 9.2, 9.2, 9.2, 9.1, 9.7, 8.4, 9.2, 8.9, 8.3, 
+9.6, 10, 11.4, 8.1, 9.5, 9, 8.8, 9.8, 8.6, 8.6, 8.6, 8.6, 8.6, 
+8.6, 9.1, 8.2, 8.6, 8.5, 8, 8.2, 7.3, 7.4, 8.4, 8.4, 8.6, 6.6, 
+6.7, 7.6, 6.7, 6.8, 9.6, 7.1, 6.8, 6.3, 6.4, 7, 6.6, 6.7, 7, 
+6.5, 6.2, 6.2, 8.1, 6.5, 6.3, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 
+8.5, 8.5, 8.5, 8.5, 8.5, 9, 9.1, 8.8, 8.6, 8.4, 8.7, 9.8, 9.8, 
+9.8, 10.1, 8.8, 8.8, 9.3, 8.7, 9, 8.4, 8.5, 8.2, 8.2, 9.1, 9.1, 
+8.8, 8.7, 8.3, 8.2, 8.7, 8, 8, 8.6, 8.6, 7.7, 7.6, 8.1, 8.1, 
+8.1, 8.1, 8.5, 9.6, 8.1, 10, 9.1, 9.6, 9.7, 9.7, 10.1, 9.6, 8.9, 
+9.4, 9.5, 8.8, 10.4, 9.1, 7.8, 7.7, 7.9, 8.5, 8.5, 8.3, 9.2, 
+9.1, 9.2, 8.7, 9.2, 8.7, 7.3, 7.9, 7.9, 6.7, 7.1, 7, 7.2, 7.4, 
+9.3, 7.7, 7.3, 6.8, 7.1, 6.9, 7.1, 7, 6.7, 7.9, 8.4, 7.7, 7.9, 
+8.4, 8.6, 8.4, 9.5, 9.1, 8.9, 8.8, 10, 8.7, 9.6, 10, 10, 9.5, 
+9.6, 9.1, 8.5, 8.2, 7.4, 7.7, 7.2, 7, 8.4, 7.1, 6.3, 6.5, 6.4, 
+8.7, 8, 9.2, 8.2, 8.1, 8.3, 8.6, 8.6, 9.2, 9, 8.2, 8.3, 8.3, 
+7.6, 8, 8.8, 9.5, 10.2, 9.2, 10, 10.2, 10.2, 10.2, 10.2, 9.2, 
+9.1, 9, 7.9, 8.8, 8.6, 9.4, 8.4, 8.9, 8.7, 8.7, 8.8, 8.7, 8.4, 
+8.8, 8.2, 7.7, 7.5, 7.8, 8.9, 8.9, 8.7, 8.7, 7.6, 8.2, 8.7, 8.7, 
+8.4, 8.6, 8.1, 9.6, 9.1, 9.3, 9.8, 8.7, 9.2, 9, 9, 10.1, 9.4, 
+9.4, 8.6, 9.6, 9.9, 9.9, 9.4, 9.5, 9.3, 9.3, 9, 8.4, 8.2, 8.4, 
+8.8, 8.9, 8.8, 8.4, 8.7, 9.3, 9.2, 8.6, 9.2, 8.9, 9.6, 8.8, 8.4, 
+8.6, 9.3, 9.9, 10, 9.6, 9.1, 8.8, 7.4, 7.4, 6.8, 6.7), KFZ.je.1000. = c(664, 
+727.9, 544.8, 706.5, 526.2, 641.7, 648.4, 739.2, 673.2, 698.5, 
+529, 646.5, 606.2, 468.9, 602.7, 612.3, 649.3, 635.9, 546.4, 
+546.4, 546.4, 546.4, 546.4, 546.4, 627.7, 653.6, 656.2, 647.1, 
+674.6, 711.6, 702.2, 675.8, 673.6, 744.9, 753.4, 726.8, 663.2, 
+695.6, 554.6, 779.8, 481, 481, 666.7, 676.9, 692.4, 680.4, 666.7, 
+637.5, 639.3, 600.7, 756.8, 692.9, 601, 516, 494, 675.5, 640.3, 
+634, 663.7, 665.5, 463.7, 678.2, 629.7, 637.2, 662.4, 649.6, 
+678.3, 602, 510.6, 613.3, 602.3, 656.5, 443.1, 627.6, 634.5, 
+424.5, 424.5, 424.5, 424.5, 424.5, 424.5, 424.5, 424.5, 424.5, 
+424.5, 424.5, 424.5, 570.6, 570.6, 647.7, 859.4, 640, 705.3, 
+572.8, 572.8, 572.8, 587.1, 640.4, 640.4, 683.8, 694.5, 600.5, 
+560.1, 617.4, 647.4, 647.4, 600, 600, 666.1, 597.1, 562.5, 673.7, 
+653.7, 653, 653, 540.7, 540.7, 569.4, 629, 565.9, 565.9, 597.4, 
+597.4, 518.2, 651.5, 626.9, 633.8, 660.3, 651.5, 593.1, 654.3, 
+690.2, 569.8, 697.6, 707.8, 665.2, 675.7, 639.1, 578.9, 650.3, 
+568.4, 517.4, 547.2, 547.2, 606.9, 563.4, 657.6, 672.6, 680.5, 
+667.9, 642.1, 660.9, 441, 441, 655.3, 655.8, 604.5, 669.3, 660, 
+495, 625.4, 668.1, 683.6, 592.4, 655.3, 645.3, 632.6, 678.4, 
+728.7, 526, 738.8, 757, 641.9, 704.6, 699.4, 722.3, 733, 692.9, 
+719.4, 746.9, 686.9, 740.9, 592.2, 592.2, 736.3, 657.9, 674.6, 
+716.3, 725.5, 637.9, 639.4, 660.6, 626.2, 524.4, 568.5, 667.5, 
+678.8, 688.1, 702.2, 705.7, 645.4, 769, 699.8, 803.6, 675.1, 
+733.1, 754.2, 700.5, 631.1, 707, 684.5, 706, 738.3, 728.9, 731.8, 
+750.8, 668.6, 772.2, 630.3, 630.3, 630.3, 630.3, 764.9, 720.3, 
+749.1, 732.9, 739, 774.4, 753.2, 749.5, 836.4, 758, 737.5, 728.5, 
+812, 767.1, 741.9, 721.3, 721.2, 718.9, 766.9, 785.3, 679.2, 
+707.6, 588.8, 753.4, 750.3, 703.8, 768.1, 726.7, 725.5, 657.4, 
+570.4, 736.3, 773.4, 733.4, 736, 754.6, 597.2, 597.2, 725, 704.4, 
+704.4, 698.3, 695.7, 683.7, 683.7, 737.6, 781.2, 703.9, 703.9, 
+595, 691.6, 723.5, 492.1, 580.9, 732.4, 684, 691.6, 650.8, 697.5, 
+493.8, 691.5, 700.7, 715.1, 721.3, 700.7, 642.8, 727.6, 703.7, 
+621.5, 685.3, 728.3, 724.5, 742.9, 670, 717.9, 717.3, 724.6)), class = "data.frame", row.names = c(NA, 
+-299L))
+```
+
+```r
+data <- mbgraphic::Election2005[, c(6, 10, 17, 28)]
+```
+
 ```{r ex1_dobin}
-data <- Election2005[, c(6, 10, 17, 28)]
 names(data) <- c("Area", "Population_density", "Birthrate", "Car_ownership")
 out <- dobin(data, frac=0.9, norm=3)
 
@@ -59,15 +206,45 @@ out$vec[ ,1]
 We see that the second variable which is *population density* is the main contributor to outliers in this dataset.  Next we draw the O3 plot using *OutliersO3* package [@O3Rpack]. O3 plots are introduced in [@unwin2019multivariate]. The O3 plot can identify outliers by using 6 different outlier detection methods. Therefore, it acts as an ensemble method. In addition, it also identifies outliers in axes-parallel subspaces. 
 
 ```{r ex1_o3}
-data <- Election2005[, c(6, 10, 17, 28)]
-names(data) <- c("Area", "Population_density", "Birthrate", "Car_ownership")
-O3y <- O3prep(data, method=c("HDo", "PCS", "BAC", "adjOut", "DDC", "MCD"))
-O3y1 <- O3plotM(O3y)
+O3y <- OutliersO3::O3prep(data, method=c("HDo", "PCS", "BAC", "adjOut", "DDC", "MCD"))
+O3y1 <- OutliersO3::O3plotM(O3y)
 O3y1$gO3
 ```
 The O3 plot is organised in such a way that the outlyingness of the observations increase to the right. The columns on the left indicate the variables, the columns on the right indicate the observations, the rows specify the axis parallel subspaces and the colours depict the number of methods that identify each observation in each subspace as an outlier. From this plot we see that observation $X84$ is identified as an outlier by $5$ methods in $5$ subspaces, $4$ methods in $2$ subspaces, $3$ methods in $1$ subspace and by $1$ method in $1$ subspace. $X84$ is arguably the most outlying observation in this dataset. The observations $X83$, $X76$, $X82$ are also identified as outliers by $5$ methods in the dimension of population density. They are also identified as outliers by multiple methods in different subspaces. 
 
-We see that DOBIN highlights the exact outliers identified by the O3 plot, in a space spanned by the first 2 DOBIN vectors. We note that this is a projection of the original space. More examples are discussed in [our paper](https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN).   
+
+## Example 2
+We consider the *diamonds* dataset in *ggplot2* R package. 
+```{r diamonds}
+data(diamonds, package="ggplot2")
+data <- diamonds[1:5000, c(1, 5, 6, 8:10)]
+
+out <- dobin(data, frac=0.9, norm=3)
+kk <- min(ceiling(dim(data)[1]/10),25)
+knn_dist <- FNN::knn.dist(out$coords[, 1:3], k = kk)
+knn_dist <- knn_dist[ ,kk]
+ord <- order(knn_dist, decreasing=TRUE)
+ord[1:4]
+```
+The first two DOBIN components highlight the observations 4519, 2315, 2208, 4792 by projecting them away from the rest of the data. This is corroborated by the following O3 plot. 
+```{r diamonds2}
+labs <- rep("norm", length(ord))
+labs[ord[1:4]] <- "out"
+df <- as.data.frame(out$coords[, 1:2])
+colnames(df) <- c("DC1", "DC2")
+df2 <- df[ord[1:4], ]
+ggplot(df, aes(x=DC1,y=DC2)) + geom_point(aes(shape=labs, color=labs), size=2 ) + geom_text(data=df2, aes(DC1, DC2, label = ord[1:4]), nudge_x = 0.5) + theme_bw()
+
+pPa <- O3prep(data, k1=5, method=c("HDo", "PCS", "adjOut"), tolHDo = 0.001, tolPCS=0.001, toladj=0.001, boxplotLimits=10)
+pPx <- O3plotM(pPa)
+pPx$gO3x + theme(plot.margin = unit(c(0, 2, 0, 0), "cm"))
+```
+
+
+In both examples, we see that DOBIN highlights the stronger outliers identified by the O3 plot, in a space spanned by the first 2 DOBIN vectors. We note that this is a projection of the original space. 
+
+
+See our  [website](https://sevvandi.github.io/dobin/index.html) or  [our paper](https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN) for more examples.   
 
 
 # References
