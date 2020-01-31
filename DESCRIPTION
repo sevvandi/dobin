@@ -15,13 +15,14 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     pracma,
-    FNN
+    RANN
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
     rmarkdown,
     OutliersO3,
-    ggplot2
+    ggplot2,
+    FNN
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.4.0)

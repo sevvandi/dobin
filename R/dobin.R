@@ -6,6 +6,7 @@
 #' @param frac The cut-off quantile for \code{Y} space. Default is \code{0.95}.
 #' @param norm The normalization technique. Default is Median-IQR, which normalizes each column of meidan \code{0} and IQR {1}.
 #' @param vis If visualization is an aim of the exercise, certain adjustments are made.
+#' @param k Parameter \code{k} for k nearest neighbours with a default value of \code{5\%} of the number of observations with a cap of 20.
 #'
 #' @return A list with the following components:
 #' \item{\code{vec}}{The basis vectors suitable for outlier detection.}
@@ -38,17 +39,19 @@
 #' @importFrom stats prcomp quantile sd median IQR
 
 
-dobin <- function(xx, frac=0.95, norm=1, vis=TRUE){
+dobin <- function(xx, frac=0.95, norm=1, vis=FALSE, k=NULL){
+
+  if(norm==1){
+    x1 <- apply(xx, 2, unitize_1)
+  }else{
+    x1 <- apply(xx, 2, unitize_3)
+  }
 
   if(dim(xx)[1] < dim(xx)[2]){
     # More dimensions than observations
     # N points can span an N-dimensional subspace
     # So change of basis to this subspace
-    if(norm==1){
-      x1 <- apply(xx, 2, unitize_1)
-    }else{
-      x1 <- apply(xx, 2, unitize_3)
-    }
+
     sd_cols <- apply(x1, 2, sd)
     inds <- which(sd_cols==0)
     if(length(inds)>0){
@@ -61,55 +64,63 @@ dobin <- function(xx, frac=0.95, norm=1, vis=TRUE){
     x <- pcax$x
     v1 <- pcax$rotation
   }else{
-    x <- xx
+    x <- x1
     v1 <- NA
     inds <- NA
   }
 
-  Yout <- close_distance_matrix(x, frac, norm)
-  Y <- Yout$y
-  Ysigns <- Yout$signs
-  Z <- Y
-  n <- dim(Y)[2]
+
+  n <- dim(x)[2]
   vec <- matrix(0, nrow = n, ncol = n)
 
-  for(i in 1:n){
-    if(i==1){
-      w <- colSums(Z)
-      signed_y <- Z*Ysigns
+  # store x in xb
+  xb <- x
+
+  for(i in 1:(n-1)){
+    # Compute Y space
+    Yout <- close_distance_matrix(x, frac, k)
+    Y <- Yout$y
+    Ysigns <- Yout$signs
+    # Find eta
+    w <- colSums(Y)
+    if(vis){
+      signed_y <- Y*Ysigns
       signs <- sign(colSums(signed_y))
-    }else if(i==n){
-      perpvec <- pracma::nullspace(t(vec[ ,1:i]))
-      w <- perpvec
+      w <- w/sqrt(sum(w^2))
+      eta <- diag(signs) %*% as.vector(w)
     }else{
-      perpvec <- pracma::nullspace(t(vec[ ,1:i]))
-      Z  <- Z - Z %*% w %*% t(w)
-      M <- Z %*% perpvec
-      M_min <- apply(M, 2, min)
-      M2 <- sweep(M, 2, M_min)
-      w0 <- colSums(M2)
-      w0 <- w0/sqrt(sum(w0^2))
-      w <- perpvec%*%w0
+      w <- w/sqrt(sum(w^2))
+      eta <- w
     }
 
-    w <- w/sqrt(sum(w^2))
-    vec[ ,i] <- w
-  }
-  if(norm==1){
-    Xu <- apply(x, 2, unitize_1)
-  }else{
-    Xu <- apply(x, 2, unitize_3)
-  }
-  if(vis){
-    Xvec <- diag(signs) %*% vec
-  }else{
-    Xvec <- vec
-  }
 
+    # Update basis
+    if(i==1){
+      vec[ ,1] <- eta
+    }else{
+      vec[ ,i] <- B %*% eta
+    }
+    # Find xperp
+    xperp <- x - x %*% eta %*% t(eta)
+    # Find a basis B for xperp
+    B1 <- pracma::nullspace(t(as.vector(eta))) #pracma::nullspace(t(vec[ ,1:i]))
+    # Change xperp coordinates to B basis
+    # new x is one dimension less than the previous x
+    x <- xperp %*% B1
 
-  coords <- Xu %*% Xvec
+    # Update B with B1 - because each time 1 dimension is reduced
+    if(i==1){
+      B <- B1
+    }else{
+      B <- B %*% B1
+    }
+  }
+  # Find the last basis vector
+  vec[ ,n] <- pracma::nullspace(t(vec[ ,1:(n-1)]))
+
+  coords <- xb %*% vec
   out <- list()
-  out$vec <- Xvec
+  out$vec <- vec
   out$coords <- coords
   out$Y <- Y
   out$Ypairs <- Yout$pairs

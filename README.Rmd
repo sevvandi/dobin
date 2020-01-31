@@ -11,7 +11,9 @@ knitr::opts_chunk$set(echo = TRUE,
 
 [![Travis build status](https://travis-ci.org/sevvandi/dobin.svg?branch=master)](https://travis-ci.org/sevvandi/dobin)
 
-The R package **dobin** constructs a set of basis vectors tailored for outlier detection as described in [@dobin]. According to Collins English dictionary, "dob in" is an informal verb meaning to inform against specially to the police. Naming credit goes to Rob Hyndman.  
+[![](https://cranlogs.r-pkg.org/badges/dobin)](https://cran.r-project.org/package=dobin)
+
+The R package **dobin** constructs a set of basis vectors tailored for outlier detection as described in [@dobin]. According to Collins English dictionary, "dob in" is an informal verb meaning to inform against specially to the police. Naming credits goes to Rob Hyndman.  
 
 ## Installation
 You can install dobin from CRAN:

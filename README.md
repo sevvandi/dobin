@@ -1,13 +1,18 @@
 
-dobin <img src='man/figures/logo.png' align="right" height="132.5" />
-=====================================================================
+# dobin <img src='man/figures/logo.png' align="right" height="132.5" />
 
-[![Travis build status](https://travis-ci.org/sevvandi/dobin.svg?branch=master)](https://travis-ci.org/sevvandi/dobin)
+[![Travis build
+status](https://travis-ci.org/sevvandi/dobin.svg?branch=master)](https://travis-ci.org/sevvandi/dobin)
 
-The R package **dobin** constructs a set of basis vectors tailored for outlier detection as described in (Kandanaarachchi and Hyndman 2019). According to Collins English dictionary, "dob in" is an informal verb meaning to inform against specially to the police. Naming credit goes to Rob Hyndman.
+[![](https://cranlogs.r-pkg.org/badges/dobin)](https://cran.r-project.org/package=dobin)
 
-Installation
-------------
+The R package **dobin** constructs a set of basis vectors tailored for
+outlier detection as described in (Kandanaarachchi and Hyndman 2019).
+According to Collins English dictionary, “dob in” is an informal verb
+meaning to inform against specially to the police. Naming credit goes to
+Rob Hyndman.
+
+## Installation
 
 You can install dobin from CRAN:
 
@@ -15,17 +20,23 @@ You can install dobin from CRAN:
  install.packages("dobin")
 ```
 
-Or you can install the development version from [GitHub](https://github.com/sevvandi/dobin)
+Or you can install the development version from
+[GitHub](https://github.com/sevvandi/dobin)
 
 ``` r
  install.packages("devtools")
  devtools::install_github("sevvandi/dobin")
 ```
 
-Example
--------
+## Example
 
-A bimodal distribution in six dimensions, with 5 outliers in the middle. We consider 805 observations in six dimensions. Of these 805 observations, 800 observations are non-outliers; 400 observations are centred at (5, 0, 0, 0, 0, 0) and the other 400 centred at ( − 5, 0, 0, 0, 0, 0). The outlier distribution consists of 5 points with mean (0, 0, 0, 0, 0, 0) and standard deviations 0.2 in the first dimension and are similar to other observations in other dimensions.
+A bimodal distribution in six dimensions, with 5 outliers in the middle.
+We consider 805 observations in six dimensions. Of these 805
+observations, 800 observations are non-outliers; 400 observations are
+centred at \((5,0,0,0,0,0)\) and the other 400 centred at
+\((-5,0,0,0,0,0)\). The outlier distribution consists of \(5\) points
+with mean \((0,0,0,0,0,0)\) and standard deviations \(0.2\) in the first
+dimension and are similar to other observations in other dimensions.
 
 ``` r
 library("dobin")
@@ -47,9 +58,10 @@ colnames(XX) <- c("DC1", "DC2", "labs" )
 ggplot(XX, aes(DC1, DC2, color=labs)) + geom_point() + theme_bw()
 ```
 
-![](man/figures/bimodal-1.png)
+![](man/figures/bimodal-1.png)<!-- -->
 
-To compare, we perform PCA on the same dataset. The first two principal components are shown in the figure below:
+To compare, we perform PCA on the same dataset. The first two principal
+components are shown in the figure below:
 
 ``` r
 library("dobin")
@@ -71,9 +83,18 @@ colnames(XX) <- c("PC1", "PC2", "labs" )
 ggplot(XX, aes(PC1, PC2, color=labs)) + geom_point() + theme_bw()
 ```
 
-![](man/figures/bimodal_pca-1.png)
+![](man/figures/bimodal_pca-1.png)<!-- -->
 
-References
-==========
+# References
 
-Kandanaarachchi, Sevvandi, and Rob J Hyndman. 2019. “Dimension Reduction for Outlier Detection Using Dobin.” Working Paper. <https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN>.
+<div id="refs" class="references hanging-indent">
+
+<div id="ref-dobin">
+
+Kandanaarachchi, Sevvandi, and Rob J Hyndman. 2019. “Dimension Reduction
+for Outlier Detection Using Dobin.” Working Paper.
+<https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN>.
+
+</div>
+
+</div>
