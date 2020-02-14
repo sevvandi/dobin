@@ -5,7 +5,6 @@
 #' @param xx The input data in a dataframe, matrix or tibble format.
 #' @param frac The cut-off quantile for \code{Y} space. Default is \code{0.95}.
 #' @param norm The normalization technique. Default is Median-IQR, which normalizes each column of meidan \code{0} and IQR {1}.
-#' @param vis If visualization is an aim of the exercise, certain adjustments are made.
 #' @param k Parameter \code{k} for k nearest neighbours with a default value of \code{5\%} of the number of observations with a cap of 20.
 #'
 #' @return A list with the following components:
@@ -39,7 +38,7 @@
 #' @importFrom stats prcomp quantile sd median IQR
 
 
-dobin <- function(xx, frac=0.95, norm=1, vis=FALSE, k=NULL){
+dobin <- function(xx, frac=0.95, norm=1, k=NULL){
 
   if(norm==1){
     x1 <- apply(xx, 2, unitize_1)
@@ -83,15 +82,8 @@ dobin <- function(xx, frac=0.95, norm=1, vis=FALSE, k=NULL){
     Ysigns <- Yout$signs
     # Find eta
     w <- colSums(Y)
-    if(vis){
-      signed_y <- Y*Ysigns
-      signs <- sign(colSums(signed_y))
-      w <- w/sqrt(sum(w^2))
-      eta <- diag(signs) %*% as.vector(w)
-    }else{
-      w <- w/sqrt(sum(w^2))
-      eta <- w
-    }
+    eta <- w/sqrt(sum(w^2))
+
 
 
     # Update basis

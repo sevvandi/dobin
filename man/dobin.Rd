@@ -4,7 +4,7 @@
 \alias{dobin}
 \title{Computes a set of basis vectors for outlier detection.}
 \usage{
-dobin(xx, frac = 0.95, norm = 1, vis = FALSE, k = NULL)
+dobin(xx, frac = 0.95, norm = 1, k = NULL)
 }
 \arguments{
 \item{xx}{The input data in a dataframe, matrix or tibble format.}
@@ -12,8 +12,6 @@ dobin(xx, frac = 0.95, norm = 1, vis = FALSE, k = NULL)
 \item{frac}{The cut-off quantile for \code{Y} space. Default is \code{0.95}.}
 
 \item{norm}{The normalization technique. Default is Median-IQR, which normalizes each column of meidan \code{0} and IQR {1}.}
-
-\item{vis}{If visualization is an aim of the exercise, certain adjustments are made.}
 
 \item{k}{Parameter \code{k} for k nearest neighbours with a default value of \code{5\%} of the number of observations with a cap of 20.}
 }
