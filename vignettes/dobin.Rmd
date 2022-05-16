@@ -33,7 +33,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE)) {
 }
 ```
 
-DOBIN (Distance based Outlier BasIs using Neighbours) [@dobin] is an approach to select a set of basis vectors tailored for outlier detection. DOBIN has a strong mathematical foundation and can be used as a dimension reduction tool for outlier detection.  The R package **dobin** computes this basis.  The DOBIN basis is constructed so that the first basis vector is in the direction yielding the highest knn distance and the second basis vector is in the direction giving the second highest knn distance and so on. Details on the construction of DOBIN can be found [here](https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN).
+DOBIN (Distance based Outlier BasIs using Neighbours) [@dobin] is an approach to select a set of basis vectors tailored for outlier detection. DOBIN has a strong mathematical foundation and can be used as a dimension reduction tool for outlier detection.  The R package **dobin** computes this basis.  The DOBIN basis is constructed so that the first basis vector is in the direction yielding the highest knn distance and the second basis vector is in the direction giving the second highest knn distance and so on. Details on the construction of DOBIN can be found in [@dobin].
 
 ## Installation
 You can install the version on CRAN:
