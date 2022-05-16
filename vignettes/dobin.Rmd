@@ -244,7 +244,7 @@ pPx$gO3x + theme(plot.margin = unit(c(0, 2, 0, 0), "cm"))
 In both examples, we see that DOBIN highlights the stronger outliers identified by the O3 plot, in a space spanned by the first 2 DOBIN vectors. We note that this is a projection of the original space. 
 
 
-See our  [website](https://sevvandi.github.io/dobin/index.html) or  [our paper](https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN) for more examples.   
+See our  [website](https://sevvandi.github.io/dobin/index.html) or  our paper for more examples.   
 
 
 # References

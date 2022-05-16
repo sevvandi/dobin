@@ -9,14 +9,14 @@ Description: A dimension reduction technique for outlier detection. DOBIN: a Dis
     based Outlier BasIs using Neighbours, constructs a set of basis vectors for outlier 
     detection. This is not an outlier detection method; rather it is a pre-processing 
     method for outlier detection. It brings outliers to the fore-front using fewer basis 
-    vectors (Kandanaarachchi, Hyndman 2019) <doi:10.13140/RG.2.2.15437.18403>. 
+    vectors (Kandanaarachchi, Hyndman 2019) <doi:10.1080/10618600.2020.1807353>. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
     pracma,
     RANN
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown,

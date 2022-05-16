@@ -1,16 +1,18 @@
 
 # dobin <img src='man/figures/logo.png' align="right" height="132.5" />
 
-[![Travis build
-status](https://travis-ci.org/sevvandi/dobin.svg?branch=master)](https://travis-ci.org/sevvandi/dobin)
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/sevvandi/dobin/workflows/R-CMD-check/badge.svg)](https://github.com/sevvandi/dobin/actions)
+<!-- badges: end -->
 
 [![](https://cranlogs.r-pkg.org/badges/dobin)](https://cran.r-project.org/package=dobin)
 
 The R package **dobin** constructs a set of basis vectors tailored for
-outlier detection as described in (Kandanaarachchi and Hyndman 2019).
+outlier detection as described in (Kandanaarachchi and Hyndman 2021).
 According to Collins English dictionary, “dob in” is an informal verb
-meaning to inform against specially to the police. Naming credit goes to
-Rob Hyndman.
+meaning to inform against specially to the police. Naming credits goes
+to Rob Hyndman.
 
 ## Installation
 
@@ -33,10 +35,18 @@ Or you can install the development version from
 A bimodal distribution in six dimensions, with 5 outliers in the middle.
 We consider 805 observations in six dimensions. Of these 805
 observations, 800 observations are non-outliers; 400 observations are
-centred at \((5,0,0,0,0,0)\) and the other 400 centred at
-\((-5,0,0,0,0,0)\). The outlier distribution consists of \(5\) points
-with mean \((0,0,0,0,0,0)\) and standard deviations \(0.2\) in the first
-dimension and are similar to other observations in other dimensions.
+centred at
+![(5,0,0,0,0,0)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%285%2C0%2C0%2C0%2C0%2C0%29 "(5,0,0,0,0,0)")
+and the other 400 centred at
+![(-5,0,0,0,0,0)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%28-5%2C0%2C0%2C0%2C0%2C0%29 "(-5,0,0,0,0,0)").
+The outlier distribution consists of
+![5](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;5 "5")
+points with mean
+![(0,0,0,0,0,0)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%280%2C0%2C0%2C0%2C0%2C0%29 "(0,0,0,0,0,0)")
+and standard deviations
+![0.2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;0.2 "0.2")
+in the first dimension and are similar to other observations in other
+dimensions.
 
 ``` r
 library("dobin")
@@ -87,13 +97,14 @@ ggplot(XX, aes(PC1, PC2, color=labs)) + geom_point() + theme_bw()
 
 # References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-dobin">
+<div id="ref-dobin" class="csl-entry">
 
-Kandanaarachchi, Sevvandi, and Rob J Hyndman. 2019. “Dimension Reduction
-for Outlier Detection Using Dobin.” Working Paper.
-<https://www.researchgate.net/publication/335568867_Dimension_reduction_for_outlier_detection_using_DOBIN>.
+Kandanaarachchi, Sevvandi, and Rob J. Hyndman. 2021. “Dimension
+Reduction for Outlier Detection Using DOBIN.” *Journal of Computational
+and Graphical Statistics* 30 (1): 204–19.
+<https://doi.org/10.1080/10618600.2020.1807353>.
 
 </div>
 

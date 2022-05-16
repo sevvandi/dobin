@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sevvandi.github.io/dobin//index.html</loc>
+    <loc>https://sevvandi.github.io/dobin/404.html</loc>
   </url>
   <url>
-    <loc>https://sevvandi.github.io/dobin//reference/dobin.html</loc>
+    <loc>https://sevvandi.github.io/dobin/articles/dobin.html</loc>
   </url>
   <url>
-    <loc>https://sevvandi.github.io/dobin//articles/dobin.html</loc>
+    <loc>https://sevvandi.github.io/dobin/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/reference/dobin.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/reference/index.html</loc>
   </url>
 </urlset>
