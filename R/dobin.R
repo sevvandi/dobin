@@ -40,6 +40,13 @@
 
 dobin <- function(xx, frac=0.95, norm=1, k=NULL){
 
+  # check if xx is numeric
+  isnum <- apply(xx, 2, is.numeric)
+  if(sum(isnum) != NCOL(xx)){
+    stop("DOBIN applies only to numerical variables.")
+  }
+
+
   if(norm==1){
     x1 <- apply(xx, 2, unitize_1)
   }else if(norm == 0){
