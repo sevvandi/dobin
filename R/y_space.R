@@ -8,8 +8,10 @@ close_distance_matrix <- function(x, frac = 0.95, k){
 
   ll <- 1
 
-  nn_obj <- RANN::nn2(x,x, k=kk)
-  kinds1 <- nn_obj$nn.idx
+  # nn_obj <- RANN::nn2(x,x, k=kk)
+  # kinds1 <- nn_obj$nn.idx
+  nn_obj <- dbscan::kNN(x, k=kk)
+  kinds1 <- nn_obj$id
   kinds11 <- kinds1[ ,ll:kk]
 
   st <- 1
