@@ -22,9 +22,18 @@
     <loc>https://sevvandi.github.io/dobin/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://sevvandi.github.io/dobin/reference/autoplot.dobin.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/reference/dobin-package.html</loc>
+  </url>
+  <url>
     <loc>https://sevvandi.github.io/dobin/reference/dobin.html</loc>
   </url>
   <url>
     <loc>https://sevvandi.github.io/dobin/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sevvandi.github.io/dobin/reference/reexports.html</loc>
   </url>
 </urlset>

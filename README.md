@@ -49,8 +49,9 @@ in the first dimension and are similar to other observations in other
 dimensions.
 
 ``` r
-library("dobin")
-library("ggplot2")
+library(dobin)
+library(ggplot2)
+
 set.seed(1)
 # A bimodal distribution in six dimensions, with 5 outliers in the middle.
 X <- data.frame(
@@ -63,19 +64,25 @@ X <- data.frame(
 )
 labs <- c(rep("Norm",400), rep("Out",5), rep("Norm",400))
 out <- dobin(X)
-XX <- cbind.data.frame(out$coords[ ,1:2], as.factor(labs))
-colnames(XX) <- c("DC1", "DC2", "labs" )
-ggplot(XX, aes(DC1, DC2, color=labs)) + geom_point() + theme_bw()
+autoplot(out)
 ```
 
 ![](man/figures/bimodal-1.png)<!-- -->
+
+To see the outliers in a different colour we plot again.
+
+``` r
+XX <- cbind.data.frame(out$coords[ ,1:2], as.factor(labs))
+colnames(XX) <- c("DB1", "DB2", "labs" )
+ggplot(XX, aes(DB1, DB2, color=labs)) + geom_point() + theme_bw()
+```
+
+![](man/figures/plotting-1.png)<!-- -->
 
 To compare, we perform PCA on the same dataset. The first two principal
 components are shown in the figure below:
 
 ``` r
-library("dobin")
-library("ggplot2")
 set.seed(1)
 # A bimodal distribution in six dimensions, with 5 outliers in the middle.
 X <- data.frame(

@@ -34,8 +34,9 @@ Or you can install the development version from [GitHub](https://github.com/sevv
 A bimodal distribution in six dimensions, with 5 outliers in the middle.  We consider 805 observations in six dimensions. Of these 805 observations,  800 observations are non-outliers;  400 observations are centred at $(5,0,0,0,0,0)$ and the other 400 centred at $(-5,0,0,0,0,0)$.  The outlier distribution consists of $5$ points with mean $(0,0,0,0,0,0)$ and standard deviations $0.2$ in the first dimension and are similar to other observations in other dimensions.
 
 ```{r bimodal}
-library("dobin")
-library("ggplot2")
+library(dobin)
+library(ggplot2)
+
 set.seed(1)
 # A bimodal distribution in six dimensions, with 5 outliers in the middle.
 X <- data.frame(
@@ -48,17 +49,23 @@ X <- data.frame(
 )
 labs <- c(rep("Norm",400), rep("Out",5), rep("Norm",400))
 out <- dobin(X)
+autoplot(out)
+
+```
+
+To see the outliers in a different colour we plot again. 
+```{r plotting}
 XX <- cbind.data.frame(out$coords[ ,1:2], as.factor(labs))
-colnames(XX) <- c("DC1", "DC2", "labs" )
-ggplot(XX, aes(DC1, DC2, color=labs)) + geom_point() + theme_bw()
+colnames(XX) <- c("DB1", "DB2", "labs" )
+ggplot(XX, aes(DB1, DB2, color=labs)) + geom_point() + theme_bw()
+
 
 ```
 
 To compare, we perform PCA on the same dataset. The first two principal components are shown in the figure below:
 
 ```{r bimodal_pca}
-library("dobin")
-library("ggplot2")
+
 set.seed(1)
 # A bimodal distribution in six dimensions, with 5 outliers in the middle.
 X <- data.frame(

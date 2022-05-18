@@ -3,7 +3,7 @@ pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   dobin: dobin.html
-last_built: 2022-05-16T01:55Z
+last_built: 2022-05-18T02:33Z
 urls:
   reference: https://sevvandi.github.io/dobin/reference
   article: https://sevvandi.github.io/dobin/articles

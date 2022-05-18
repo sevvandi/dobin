@@ -49,9 +49,9 @@ Or you can install the development version from [GitHub](https://github.com/sevv
 
 ## Load libraries
 ```{r load, echo=TRUE}
-library("dobin")
-library("ggplot2")
-library("OutliersO3")
+library(dobin)
+library(ggplot2)
+library(OutliersO3)
 ```
 
 
@@ -220,6 +220,8 @@ data(diamonds, package="ggplot2")
 data <- diamonds[1:5000, c(1, 5, 6, 8:10)]
 
 out <- dobin(data, frac=0.9, norm=3)
+autoplot(out)
+
 kk <- min(ceiling(dim(data)[1]/10),25)
 knn_dist <- FNN::knn.dist(out$coords[, 1:3], k = kk)
 knn_dist <- knn_dist[ ,kk]
@@ -231,9 +233,9 @@ The first two DOBIN components highlight the observations 4519, 2315, 2208, 4792
 labs <- rep("norm", length(ord))
 labs[ord[1:4]] <- "out"
 df <- as.data.frame(out$coords[, 1:2])
-colnames(df) <- c("DC1", "DC2")
+colnames(df) <- c("DB1", "DB2")
 df2 <- df[ord[1:4], ]
-ggplot(df, aes(x=DC1,y=DC2)) + geom_point(aes(shape=labs, color=labs), size=2 ) + geom_text(data=df2, aes(DC1, DC2, label = ord[1:4]), nudge_x = 0.5) + theme_bw()
+ggplot(df, aes(x=DB1,y=DB2)) + geom_point(aes(shape=labs, color=labs), size=2 ) + geom_text(data=df2, aes(DB1, DB2, label = ord[1:4]), nudge_x = 0.5) + theme_bw()
 
 pPa <- O3prep(data, k1=5, method=c("HDo", "PCS", "adjOut"), tolHDo = 0.001, tolPCS=0.001, toladj=0.001, boxplotLimits=10)
 pPx <- O3plotM(pPa)

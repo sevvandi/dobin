@@ -4,13 +4,13 @@
 #'
 #' @param xx The input data in a dataframe, matrix or tibble format.
 #' @param frac The cut-off quantile for \code{Y} space. Default is \code{0.95}.
-#' @param norm The normalization technique. Default is Median-IQR, which normalizes each column of meidan \code{0} and IQR {1}.
+#' @param norm The normalization technique. Default is Min-Max, which normalizes each column to values between 0 and 1. \code{norm = 0} skips normalization. Other values of norm defaults to Median-IQR normalization.
 #' @param k Parameter \code{k} for k nearest neighbours with a default value of \code{5\%} of the number of observations with a cap of 20.
 #'
 #' @return A list with the following components:
-#' \item{\code{vec}}{The basis vectors suitable for outlier detection.}
+#' \item{\code{rotation}}{The basis vectors suitable for outlier detection.}
 #' \item{\code{coords}}{The dobin coordinates of the data \code{xx}. }
-#' \item{\code{Y}}{The The associated \code{Y} space. }
+#' \item{\code{Yspace}}{The The associated \code{Y} space. }
 #' \item{\code{Ypairs}}{The pairs in \code{xx} used to construct the \code{Y} space. }
 #' \item{\code{zerosdcols}}{Columns in \code{xx} with zero standard deviation. This is computed only if the number of columns are greater than the number of rows. }
 #'
@@ -42,6 +42,8 @@ dobin <- function(xx, frac=0.95, norm=1, k=NULL){
 
   if(norm==1){
     x1 <- apply(xx, 2, unitize_1)
+  }else if(norm == 0){
+    x1 <- xx # do not normalize
   }else{
     x1 <- apply(xx, 2, unitize_3)
   }
@@ -111,11 +113,14 @@ dobin <- function(xx, frac=0.95, norm=1, k=NULL){
   vec[ ,n] <- pracma::nullspace(t(vec[ ,1:(n-1)]))
 
   coords <- xb %*% vec
-  out <- list()
-  out$vec <- vec
-  out$coords <- coords
-  out$Y <- Y
-  out$Ypairs <- Yout$pairs
-  out$zerosdcols <- inds
-  return(out)
+
+
+  structure(list(
+    rotation = vec,
+    coords = coords,
+    Yspace = Y,
+    Ypairs = Yout$pairs,
+    zerosdcols = inds,
+    call = match.call()
+  ), class='dobin')
 }

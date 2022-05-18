@@ -1,7 +1,7 @@
 Package: dobin
 Type: Package
 Title: Dimension Reduction for Outlier Detection
-Version: 1.0.1
+Version: 1.0.3
 Authors@R: person("Sevvandi", "Kandanaarachchi", email = "sevvandik@gmail.com",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0337-0395"))
 Maintainer: Sevvandi Kandanaarachchi <sevvandik@gmail.com>
@@ -14,6 +14,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    ggplot2,
     pracma,
     RANN
 RoxygenNote: 7.1.2
@@ -21,7 +22,6 @@ Suggests:
     knitr,
     rmarkdown,
     OutliersO3,
-    ggplot2,
     FNN
 VignetteBuilder: knitr
 Depends: 
