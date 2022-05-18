@@ -46,6 +46,14 @@ dobin <- function(xx, frac=0.95, norm=1, k=NULL){
     stop("DOBIN applies only to numerical variables.")
   }
 
+  # check for rows with NAs and remove
+  isna <- apply(xx, 1, function(x) sum(is.na(x)))
+  inds <- which(isna > 0)
+  if(length(inds) > 0){
+    cat("\nRemoving NA rows. Row number:", inds)
+    xx <- xx[-inds, ]
+  }
+
 
   if(norm==1){
     x1 <- apply(xx, 2, unitize_1)
