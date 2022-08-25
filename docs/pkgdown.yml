@@ -1,9 +1,9 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.3
+pandoc: '2.18'
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   dobin: dobin.html
-last_built: 2022-05-18T02:33Z
+last_built: 2022-08-25T22:01Z
 urls:
   reference: https://sevvandi.github.io/dobin/reference
   article: https://sevvandi.github.io/dobin/articles

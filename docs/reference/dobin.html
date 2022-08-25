@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dobin</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
       </span>
     </div>
 
@@ -47,57 +47,71 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dobin</span><span class="op">(</span><span class="va">xx</span>, frac <span class="op">=</span> <span class="fl">0.95</span>, norm <span class="op">=</span> <span class="fl">1</span>, k <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dobin</span><span class="op">(</span><span class="va">xx</span>, frac <span class="op">=</span> <span class="fl">0.95</span>, norm <span class="op">=</span> <span class="fl">1</span>, k <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>xx</dt>
 <dd><p>The input data in a dataframe, matrix or tibble format.</p></dd>
+
+
 <dt>frac</dt>
 <dd><p>The cut-off quantile for <code>Y</code> space. Default is <code>0.95</code>.</p></dd>
+
+
 <dt>norm</dt>
 <dd><p>The normalization technique. Default is Min-Max, which normalizes each column to values between 0 and 1. <code>norm = 0</code> skips normalization. Other values of norm defaults to Median-IQR normalization.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>Parameter <code>k</code> for k nearest neighbours with a default value of <code>5%</code> of the number of observations with a cap of 20.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with the following components:</p>
+    
+
+<p>A list with the following components:</p>
 <dl><dt><code>rotation</code></dt>
 <dd><p>The basis vectors suitable for outlier detection.</p></dd>
+
 <dt><code>coords</code></dt>
 <dd><p>The dobin coordinates of the data <code>xx</code>.</p></dd>
+
 <dt><code>Yspace</code></dt>
 <dd><p>The The associated <code>Y</code> space.</p></dd>
+
 <dt><code>Ypairs</code></dt>
 <dd><p>The pairs in <code>xx</code> used to construct the <code>Y</code> space.</p></dd>
+
 <dt><code>zerosdcols</code></dt>
 <dd><p>Columns in <code>xx</code> with zero standard deviation. This is computed only if the number of columns are greater than the number of rows.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># A bimodal distribution in six dimensions, with 5 outliers in the middle.</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x1_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">5</span>, <span class="fl">400</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mu2</span> <span class="op">&lt;-</span>  <span class="fl">0</span></span>
-<span class="r-in"><span class="va">x1_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span>, mean<span class="op">=</span><span class="va">mu2</span>, sd<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x1_1</span>, <span class="va">x1_2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">x2</span>,<span class="va">x3</span>,<span class="va">x4</span>,<span class="va">x5</span>,<span class="va">x6</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">*</span><span class="va">x1_1</span>,<span class="va">x2</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x3</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x4</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x5</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x6</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">X1</span>, <span class="va">X2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">400</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">400</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">dobin</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">coords</span><span class="op">[</span> , <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">labs</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># A bimodal distribution in six dimensions, with 5 outliers in the middle.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">405</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x1_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">5</span>, <span class="fl">400</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mu2</span> <span class="op">&lt;-</span>  <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="va">x1_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span>, mean<span class="op">=</span><span class="va">mu2</span>, sd<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x1_1</span>, <span class="va">x1_2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">x2</span>,<span class="va">x3</span>,<span class="va">x4</span>,<span class="va">x5</span>,<span class="va">x6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">*</span><span class="va">x1_1</span>,<span class="va">x2</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x3</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x4</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x5</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span>,<span class="va">x6</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">X1</span>, <span class="va">X2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">400</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">400</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dob</span> <span class="op">&lt;-</span> <span class="fu">dobin</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">dob</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="dobin-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -112,7 +126,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

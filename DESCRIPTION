@@ -1,7 +1,7 @@
 Package: dobin
 Type: Package
 Title: Dimension Reduction for Outlier Detection
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: person("Sevvandi", "Kandanaarachchi", email = "sevvandik@gmail.com",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0337-0395"))
 Maintainer: Sevvandi Kandanaarachchi <sevvandik@gmail.com>
@@ -17,7 +17,7 @@ Imports:
     dbscan,
     ggplot2,
     pracma
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests: 
     knitr,
     rmarkdown,
